@@ -1,6 +1,5 @@
 name: Generate and Obfuscate Worker Script
 
-# 触发条件：手动触发 + 明文源文件变更（仅main分支）
 on:
   workflow_dispatch:
   push:
@@ -12,7 +11,6 @@ on:
 jobs:
   build-and-obfuscate:
     runs-on: ubuntu-latest
-    # 显式声明写入代码的权限（关键：解决默认权限不足问题）
     permissions:
       contents: write
       pull-requests: write
@@ -21,28 +19,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1  # 仅拉取最新提交，加速执行
+          fetch-depth: 1
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          # 移除 cache: 'npm'（因为没有锁文件，自动缓存会报错）
-          cache: ''  # 禁用 setup-node 的自动缓存
+          cache: ''  # 禁用自动缓存，避免锁文件报错
 
       - name: Cache obfuscator dependencies
         uses: actions/cache@v3
         with:
-          path: ~/.npm  # npm 缓存目录
-          # 调整缓存密钥：不依赖锁文件，用 Node 版本 + 系统标识（避免缺失锁文件报错）
+          path: ~/.npm
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-obfuscator
           restore-keys: |
             ${{ runner.os }}-node-${{ matrix.node-version }}-
             ${{ runner.os }}-node-
 
+      # 关键修改：用存在的版本 4.11.0（或直接去掉@版本号，安装最新版）
       - name: Install JavaScript Obfuscator
-        run: npm install javascript-obfuscator@4.10.0  # 锁定版本，避免兼容性问题
-        continue-on-error: false  # 依赖安装失败直接终止
+        run: npm install javascript-obfuscator@4.11.0  # 4.11.0 是真实存在的稳定版
+        continue-on-error: false
 
       - name: Validate source file existence
         run: |
@@ -120,27 +117,22 @@ jobs:
 
       - name: Commit and push obfuscated file
         run: |
-          # 配置Git身份
           git config --global user.name 'GitHub Actions Bot'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-          # 添加并检查文件变更
           git add '少年你相信光吗'
           if git diff --staged --quiet; then
             echo "ℹ️  无变更：混淆文件与现有版本一致"
             exit 0
           fi
 
-          # 提交变更
           git commit -m "feat: 自动混淆Worker脚本 [$(date +'%Y-%m-%d %H:%M:%S')]"
-
-          # 使用GITHUB_TOKEN推送（已配置仓库读写权限）
           git push origin ${{ github.ref }}
 
           echo "✅ 混淆文件提交成功！"
 
       - name: Cleanup temporary files
-        if: always()  # 无论前序步骤是否成功，均清理临时文件
+        if: always()
         run: |
           rm -f obfuscate.js
           echo "🧹 临时文件清理完成"
