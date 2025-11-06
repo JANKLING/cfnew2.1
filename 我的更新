@@ -1,5 +1,5 @@
 import { connect } from 'cloudflare:sockets';
-// 黑客帝国2.1
+// 黑客帝国2.1 KV 空间 SOC
 
 // let at = '351c9981-04b6-4103-aa4b-864aa9c91469';
 let at = '4229b8cd-c3ea-4d4a-a843-2e0a73dded50';
@@ -3507,8 +3507,8 @@ async function handleConfigAPI(request) {
                 updateCustomPreferredFromYx();
             }
             
-            const newPreferredIPsURL = getConfigValue('yxURL', '') || 'https://raw.githubusercontent.com/qwer-search/bestip/refs/heads/main/kejilandbestip.txt';
-            const defaultURL = 'https://raw.githubusercontent.com/qwer-search/bestip/refs/heads/main/kejilandbestip.txt';
+            const newPreferredIPsURL = getConfigValue('yxURL', '') || 'https://raw.githubusercontent.com/qwer-search/bestip/refs/heads/main/kejilandbestip.txt 3333';
+            const defaultURL = 'https://raw.githubusercontent.com/qwer-search/bestip/refs/heads/main/kejilandbestip.txt 1111111';
             if (newPreferredIPsURL !== defaultURL) {
                 directDomains.length = 0;
                 customPreferredIPs = [];
@@ -3550,12 +3550,12 @@ async function handleConfigAPI(request) {
 					
 					
 					
-                    { domain: "f3058171cad.002404.xyz" }, 					
-                    { domain: "115155.xyz" }, 
-                    { domain: "cname.xirancdn.us" }, 					
-                    { domain: "cf.zerone-cdn.pp.ua" }, 					
-                    { domain: "cloudflare.9jy.cc" },
-					{ domain: "8.889288.xyz" }
+                    { domain: "不载f3058171cad.002404.xyz" }, 					
+                    { domain: "不载115155.xyz" }, 
+                    { domain: "不载cname.xirancdn.us" }, 					
+                    { domain: "不载cf.zerone-cdn.pp.ua" }, 					
+                    { domain: "不载cloudflare.9jy.cc" },
+					{ domain: "不载8.889288.xyz" }
                 );
             }
             
