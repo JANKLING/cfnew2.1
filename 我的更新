@@ -3507,8 +3507,8 @@ async function handleConfigAPI(request) {
                 updateCustomPreferredFromYx();
             }
             
-            const newPreferredIPsURL = getConfigValue('yxURL', '') || 'https://raw.githubusercontent.com/qwer-search/bestip/refs/heads/main/kejilandbestip.txt 3333';
-            const defaultURL = 'https://raw.githubusercontent.com/qwer-search/bestip/refs/heads/main/kejilandbestip.txt 1111111';
+            const newPreferredIPsURL = getConfigValue('yxURL', '') || 'https://raw.githubusercontent.com/qwer-search/bestip/refs/heads/main/kejilandbestip.txt';
+            const defaultURL = 'https://raw.githubusercontent.com/qwer-search/bestip/refs/heads/main/kejilandbestip.txt';
             if (newPreferredIPsURL !== defaultURL) {
                 directDomains.length = 0;
                 customPreferredIPs = [];
